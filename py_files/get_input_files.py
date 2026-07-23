@@ -8,7 +8,7 @@ def get_input_files(input_dir, input_file_extension, output_file):
     if input_dir == "all":
         input_files_glob_pattern = f"**/*.{input_file_extension}"
     else:
-        input_files_glob_pattern = f"{input_dir}/*.{input_file_extension}"
+        input_files_glob_pattern = f"{input_dir}/**/*.{input_file_extension}"
 
     input_files = []
     for file in glob(input_files_glob_pattern, recursive=True):
