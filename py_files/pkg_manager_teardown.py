@@ -2,7 +2,7 @@ from subprocess import run
 from os import environ
 
 
-def teardown_pkg_manager(pkg_manager):
+def pkg_manager_teardown(pkg_manager):
     if pkg_manager == "npm":
         print("Nothing to teardown")
     elif pkg_manager == "pnpm":
@@ -16,4 +16,4 @@ def teardown_pkg_manager(pkg_manager):
 
 
 if __name__ == "__main__":
-    teardown_pkg_manager(environ["PKG_MANAGER"])
+    pkg_manager_teardown(environ["PKG_MANAGER"])

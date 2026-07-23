@@ -2,7 +2,7 @@ from subprocess import run
 from os import environ
 
 
-def setup_pkg_manager(pkg_manager):
+def pkg_manager_setup(pkg_manager):
     if pkg_manager == "npm":
         print("Nothing to setup")
     elif pkg_manager == "pnpm":
@@ -16,4 +16,4 @@ def setup_pkg_manager(pkg_manager):
 
 
 if __name__ == "__main__":
-    setup_pkg_manager(environ["PKG_MANAGER"])
+    pkg_manager_setup(environ["PKG_MANAGER"])

@@ -3,7 +3,7 @@ from subprocess import run
 from os import environ
 
 
-def gen_mermaid(input_files_to_regen, output_files_to_regen, run_cmd):
+def mermaid_gen(input_files_to_regen, output_files_to_regen, run_cmd):
 
     mermaid_env = [
         "env",
@@ -30,7 +30,7 @@ def gen_mermaid(input_files_to_regen, output_files_to_regen, run_cmd):
 
 
 if __name__ == "__main__":
-    gen_mermaid(
+    mermaid_gen(
         json.loads(environ["INPUT_FILES_TO_REGEN"]),
         json.loads(environ["OUTPUT_FILES_TO_REGEN"]),
         environ["RUN_CMD"],
