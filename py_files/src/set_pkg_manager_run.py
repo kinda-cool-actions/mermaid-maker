@@ -1,4 +1,3 @@
-from subprocess import run
 from os import environ
 
 
