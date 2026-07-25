@@ -24,9 +24,7 @@ def mermaid_gen(input_files_to_regen, output_files_to_regen, run_cmd):
             "transparent",
         ]
 
-        run(
-            mermaid_env + [run_cmd] + mermaid_cmd,
-        )
+        run(mermaid_env + [run_cmd] + mermaid_cmd, check=True)
 
 
 if __name__ == "__main__":

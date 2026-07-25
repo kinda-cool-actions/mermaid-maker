@@ -1,7 +1,7 @@
-from subprocess import run
 from os import chdir
-from pathlib import Path
 from os.path import dirname
+from pathlib import Path
+from subprocess import run
 
 
 def bundle_py_files(option: str, interactive: bool = False):
@@ -10,7 +10,7 @@ def bundle_py_files(option: str, interactive: bool = False):
         chdir(Path(dirname(__file__)) / ".." / "py_files_to_action_bundler")
         if interactive:
             print("Bundling...")
-        run(["pnpm", "bundle_to_action"])
+        run(["pnpm", "bundle_to_action"], check=True)
         if interactive:
             print("Completed!")
     elif option_lower in ["q", "quit"]:
