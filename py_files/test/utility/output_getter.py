@@ -1,4 +1,7 @@
 def output_getter(output_file: str):
+    """
+    Gets the outputted key/value pairs in the output file
+    """
     found_output_vars = {}
     with open(output_file) as file:
         content_lines = file.readlines()
