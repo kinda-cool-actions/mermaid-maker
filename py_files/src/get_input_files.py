@@ -1,6 +1,6 @@
+import json
 from glob import glob
 from os import environ
-import json
 
 
 def get_input_files(input_dir, input_file_extension, output_file):

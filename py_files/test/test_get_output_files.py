@@ -1,10 +1,12 @@
-import pytest
-from ..src.get_output_files import get_output_files
 import json
-from .utility.output_getter import output_getter
-from .utility.fake_file_creator import fake_file_creator
-from pathlib import Path
 from os.path import basename
+from pathlib import Path
+
+import pytest
+
+from ..src.get_output_files import get_output_files
+from .utility.fake_file_creator import fake_file_creator
+from .utility.output_getter import output_getter
 
 
 def test_same_flat(fs, random_files):

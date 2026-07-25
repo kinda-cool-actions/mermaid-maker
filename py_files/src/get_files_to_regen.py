@@ -1,7 +1,7 @@
-from os.path import getmtime
-from os import environ
-from pathlib import Path
 import json
+from os import environ
+from os.path import getmtime
+from pathlib import Path
 
 
 def get_files_to_regen(input_files, output_files, output_file):

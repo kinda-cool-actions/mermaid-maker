@@ -1,5 +1,5 @@
-from subprocess import run
 from os import environ
+from subprocess import run
 
 
 def pkg_manager_setup(pkg_manager):

@@ -1,7 +1,7 @@
-from pathlib import Path
-from os.path import basename
-from os import environ
 import json
+from os import environ
+from os.path import basename
+from pathlib import Path
 
 
 def get_output_files(input_files, output_dir, output_file_extension, output_file):

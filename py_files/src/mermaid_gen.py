@@ -1,6 +1,6 @@
 import json
-from subprocess import run
 from os import environ
+from subprocess import run
 
 
 def mermaid_gen(input_files_to_regen, output_files_to_regen, run_cmd):

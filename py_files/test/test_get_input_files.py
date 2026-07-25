@@ -1,7 +1,8 @@
-from ..src import get_input_files
 import json
-from .utility.output_getter import output_getter
+
+from ..src import get_input_files
 from .utility.fake_file_creator import fake_file_creator
+from .utility.output_getter import output_getter
 
 
 def test_all_flat_dir(fs, random_files):
