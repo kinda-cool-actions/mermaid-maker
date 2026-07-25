@@ -11,6 +11,10 @@ def get_files_to_regen(input_files, output_files, output_file):
     for i in range(len(input_files)):
         output_file_exists = Path(output_files[i]).exists()
 
+        # we want to skip generating mermaid diagrams when:
+        # 1. output file exists, AND
+        # 2. output file is newer or as new as the input file
+        # this is the negation of that
         if not output_file_exists or (
             getmtime(input_files[i]) > getmtime(output_files[i])
         ):
