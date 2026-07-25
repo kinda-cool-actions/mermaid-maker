@@ -19,6 +19,10 @@ def get_output_files(input_files, output_dir, output_file_extension, output_file
                 .with_suffix(f".{output_file_extension}")
                 .as_posix()
             )
+        if len(output_files) != len(set(output_files)):
+            raise FileExistsError(
+                "If you are specifying an output directory, please ensure your input mermaid files have unique names."
+            )
 
     with open(output_file, "a") as file:
         print(f"output_files={json.dumps(output_files)}", file=file)
