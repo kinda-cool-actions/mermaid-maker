@@ -12,7 +12,7 @@ def pkg_manager_teardown(pkg_manager):
     elif pkg_manager == "bun":
         print("Nothing to teardown")
     else:
-        run(["exit", "1"])
+        raise ValueError("Inputted pkg_manager is not recognized")
 
 
 if __name__ == "__main__":

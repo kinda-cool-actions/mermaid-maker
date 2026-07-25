@@ -13,7 +13,7 @@ def set_pkg_manager_run(pkg_manager, output_file):
     elif pkg_manager == "bun":
         pkg_manager_run_cmd = "bunx"
     else:
-        run(["exit", "1"])
+        raise ValueError("Inputted pkg_manager is not recognized")
 
     with open(output_file, "a") as file:
         print("pkg_manager_run_cmd=" + pkg_manager_run_cmd, file=file)
