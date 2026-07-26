@@ -1,10 +1,31 @@
 # Mermaid-Maker
 
-This action converts mermaid files into one of the output formats: png, svg, pdf, before committing them to your repository. 
+This action converts [mermaid](https://github.com/mermaid-js/mermaid) files into one of the output formats: png, svg, pdf, before committing them to your repository. 
+
+## What is Mermaid?
+
+Mermaid is a popular diagramming tool written with JS. It uses a unique syntax to generate flow charts, class diagrams, quadrant charts, etc...
+
+Here's an example of mermaid syntax:
+
+```
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+```
+
+Mermaid would then convert the previous syntax into the following diagram:
+
+```mermaid
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+
+```
 
 ## Why Use This Action?
-
-Mermaid is one of the most popular diagramming libraries.
 
 One key aspect about Mermaid is that it's a client-side library. It uses the DOM to render diagrams.
 
@@ -24,7 +45,7 @@ One solution is rendering mermaid diagrams asyncronously and caching them betwee
 
 This is good enough for use-cases where:
 
-1. Speed of loading diagrams isn't a priority
+1. Initial speed of loading diagrams isn't a priority
 
 2. A given webpage only contains a few, simpler diagrams
 
@@ -38,7 +59,7 @@ Another solution is using `mermaid-js/mermaid-cli` to render mermaid diagrams on
 
 This is also good enough for use-cases where:
 
-1. You're working on internal/individual projects. With collaborative (esp. open-source) projects, you need to check and/or protect against scripting attacks with SVGs. (You can use PNGs to skip this step).
+1. You're working on internal/individual projects. With collaborative (esp. open-source) projects, you need to check and/or protect against scripting attacks with SVGs. You can use PNGs to skip this step.
 
 2. You're willing to figure out how to set up the mermaid cli (downloading headless browsers, sandboxing, generating new mermaid diagrams with every change).
 
@@ -46,7 +67,7 @@ This is also good enough for use-cases where:
 
 ### This Solution
 
-Or... **you can use this solution**. This Github action checks for any added or modified mermaid source files, and it renders them to your chosen output on every push. Then, it commits the generated diagrams to your repo automatically. 
+Or... **you can use this solution**. This Github action checks for any added or modified mermaid source files, and it renders them to your chosen output. Then, it commits the generated diagrams to your repo automatically. 
 
 This solution is:
 
@@ -58,4 +79,4 @@ This solution is:
 
 ## Usage
 
-On 
+TBD...
