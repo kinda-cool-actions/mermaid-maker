@@ -1,4 +1,4 @@
-from ..src import pkg_manager_setup
+from ..src import pkg_manager_teardown
 
 
 def test_pnpm_pkg_manager(monkeypatch):
@@ -7,14 +7,14 @@ def test_pnpm_pkg_manager(monkeypatch):
     """
     run_command = []
     monkeypatch.setattr(
-        pkg_manager_setup, "run", lambda arg, check: run_command.extend(arg)
+        pkg_manager_teardown, "run", lambda arg, check: run_command.extend(arg)
     )
-    pkg_manager_setup.pkg_manager_setup("pnpm")
+    pkg_manager_teardown.pkg_manager_teardown("pnpm")
     assert run_command == [
         "pnpm",
         "config",
         "set",
         "--location=project",
         "strictDepBuilds",
-        "false",
+        "true",
     ]

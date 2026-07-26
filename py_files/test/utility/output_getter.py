@@ -7,5 +7,5 @@ def output_getter(output_file: str):
         content_lines = file.readlines()
         for line in content_lines:
             key, value = line.split("=")
-            found_output_vars[key] = value
+            found_output_vars[key] = value.removesuffix("\n")
     return found_output_vars
