@@ -46,9 +46,9 @@ runs:
   steps:
     - name: Get all the input mermaid files
       run: |
+        import json
         from glob import glob
         from os import environ
-        import json
 
 
         def get_input_files(input_dir, input_file_extension, output_file):
@@ -56,7 +56,7 @@ runs:
             if input_dir == "all":
                 input_files_glob_pattern = f"**/*.{input_file_extension}"
             else:
-                input_files_glob_pattern = f"{input_dir}/*.{input_file_extension}"
+                input_files_glob_pattern = f"{input_dir}/**/*.{input_file_extension}"
 
             input_files = []
             for file in glob(input_files_glob_pattern, recursive=True):
@@ -77,10 +77,10 @@ runs:
         INPUT_FILE_EXTENSION: ${{inputs.input_file_extension}}
     - name: Get all the existing, generated mermaid files (if they exist)
       run: |
-        from pathlib import Path
-        from os.path import basename
-        from os import environ
         import json
+        from os import environ
+        from os.path import basename
+        from pathlib import Path
 
 
         def get_output_files(input_files, output_dir, output_file_extension, output_file):
@@ -97,6 +97,10 @@ runs:
                         (Path(output_dir) / basename(file))
                         .with_suffix(f".{output_file_extension}")
                         .as_posix()
+                    )
+                if len(output_files) != len(set(output_files)):
+                    raise FileExistsError(
+                        "If you are specifying an output directory, please ensure your input mermaid files have unique names."
                     )
 
             with open(output_file, "a") as file:
@@ -118,10 +122,10 @@ runs:
       shell: python
     - name: Get all the input/ouput files that must be (re)generated
       run: |
-        from os.path import getmtime
-        from os import environ
-        from pathlib import Path
         import json
+        from os import environ
+        from os.path import getmtime
+        from pathlib import Path
 
 
         def get_files_to_regen(input_files, output_files, output_file):
@@ -131,6 +135,10 @@ runs:
             for i in range(len(input_files)):
                 output_file_exists = Path(output_files[i]).exists()
 
+                # we want to skip generating mermaid diagrams when:
+                # 1. output file exists, AND
+                # 2. output file is newer or as new as the input file
+                # this is the negation of that
                 if not output_file_exists or (
                     getmtime(input_files[i]) > getmtime(output_files[i])
                 ):
@@ -158,49 +166,55 @@ runs:
       env:
         PKG_MANAGER: ${{inputs.pkg_manager}}
       run: |
-        ### Set pkg_manager run commmand
-
-        from subprocess import run
         from os import environ
 
-        pkg_manager_run_cmd = ""
-        if environ["PKG_MANAGER"] == "npm":
-            pkg_manager_run_cmd = "npx"
-        elif environ["PKG_MANAGER"] == "pnpm":
-            pkg_manager_run_cmd = "pnpm"
-        elif environ["PKG_MANAGER"] == "yarn":
-            pkg_manager_run_cmd = "yarn dlx"
-        elif environ["PKG_MANAGER"] == "bun":
-            pkg_manager_run_cmd = "bunx"
-        else:
-            run(["exit", "1"])
 
-        with open(environ["GITHUB_OUTPUT"], "a") as file:
-            print("pkg_manager_run_cmd=" + pkg_manager_run_cmd, file=file)
+        def set_pkg_manager_run(pkg_manager, output_file):
+            pkg_manager_run_cmd = ""
+            if pkg_manager == "npm":
+                pkg_manager_run_cmd = "npx"
+            elif pkg_manager == "pnpm":
+                pkg_manager_run_cmd = "pnpm"
+            elif pkg_manager == "yarn":
+                pkg_manager_run_cmd = "yarn dlx"
+            elif pkg_manager == "bun":
+                pkg_manager_run_cmd = "bunx"
+            else:
+                raise ValueError("Inputted pkg_manager is not recognized")
+
+            with open(output_file, "a") as file:
+                print("pkg_manager_run_cmd=" + pkg_manager_run_cmd, file=file)
+
+
+        if __name__ == "__main__":
+            set_pkg_manager_run(environ["PKG_MANAGER"], environ["GITHUB_OUTPUT"])
       id: set_pkg_manager_run
       shell: python
     - if: ${{steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
       name: Package manager setup
       run: |
-        from subprocess import run
         from os import environ
+        from subprocess import run
 
 
-        def setup_pkg_manager(pkg_manager):
+        def pkg_manager_setup(pkg_manager):
             if pkg_manager == "npm":
                 print("Nothing to setup")
             elif pkg_manager == "pnpm":
-                run(["pnpm", "config", "set", "--location=project", "strictDepBuilds", "false"])
+                run(
+                    ["pnpm", "config", "set", "--location=project", "strictDepBuilds", "false"],
+                    check=True,
+                )
             elif pkg_manager == "yarn":
                 print("Nothing to setup")
             elif pkg_manager == "bun":
                 print("Nothing to setup")
             else:
-                run(["exit", "1"])
+                raise ValueError("Inputted pkg_manager is not recognized")
 
 
         if __name__ == "__main__":
-            setup_pkg_manager(environ["PKG_MANAGER"])
+            pkg_manager_setup(environ["PKG_MANAGER"])
       shell: python
       id: pkg_manager_setup
       env:
@@ -239,11 +253,11 @@ runs:
         RUN_CMD: ${{steps.set_pkg_manager_run.outputs.pkg_manager_run_cmd}}
       run: |
         import json
-        from subprocess import run
         from os import environ
+        from subprocess import run
 
 
-        def gen_mermaid(input_files_to_regen, output_files_to_regen, run_cmd):
+        def mermaid_gen(input_files_to_regen, output_files_to_regen, run_cmd):
 
             mermaid_env = [
                 "env",
@@ -264,13 +278,11 @@ runs:
                     "transparent",
                 ]
 
-                run(
-                    mermaid_env + [run_cmd] + mermaid_cmd,
-                )
+                run(mermaid_env + [run_cmd] + mermaid_cmd, check=True)
 
 
         if __name__ == "__main__":
-            gen_mermaid(
+            mermaid_gen(
                 json.loads(environ["INPUT_FILES_TO_REGEN"]),
                 json.loads(environ["OUTPUT_FILES_TO_REGEN"]),
                 environ["RUN_CMD"],
@@ -293,24 +305,27 @@ runs:
       env:
         PKG_MANAGER: ${{inputs.pkg_manager}}
       run: |
-        from subprocess import run
         from os import environ
+        from subprocess import run
 
 
-        def teardown_pkg_manager(pkg_manager):
+        def pkg_manager_teardown(pkg_manager):
             if pkg_manager == "npm":
                 print("Nothing to teardown")
             elif pkg_manager == "pnpm":
-                run(["pnpm", "config", "set", "--location=project", "strictDepBuilds", "true"])
+                run(
+                    ["pnpm", "config", "set", "--location=project", "strictDepBuilds", "true"],
+                    check=True,
+                )
             elif pkg_manager == "yarn":
                 print("Nothing to teardown")
             elif pkg_manager == "bun":
                 print("Nothing to teardown")
             else:
-                run(["exit", "1"])
+                raise ValueError("Inputted pkg_manager is not recognized")
 
 
         if __name__ == "__main__":
-            teardown_pkg_manager(environ["PKG_MANAGER"])
+            pkg_manager_teardown(environ["PKG_MANAGER"])
       shell: python
       id: pkg_manager_teardown

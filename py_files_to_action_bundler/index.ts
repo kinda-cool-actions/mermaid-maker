@@ -29,7 +29,7 @@ export function sync_left() {
         if (step['shell'] === "python") {
             const py_id = step['id']
             const py_run = step['run'] as string
-            writeFileSync(`../python_snippets/${py_id}.py`, py_run)
+            writeFileSync(`../py_files/src/${py_id}.py`, py_run)
 
         }
     }
@@ -41,7 +41,7 @@ export function bundle_to_action() {
         if (step['shell'] === "python") {
             let py_id = step['id']
             try {
-                step['run'] = readFileSync(`../py_files/${py_id}.py`, "utf-8")
+                step['run'] = readFileSync(`../py_files/src/${py_id}.py`, "utf-8")
             }
             catch (error) {
                 if (error instanceof Error) {
