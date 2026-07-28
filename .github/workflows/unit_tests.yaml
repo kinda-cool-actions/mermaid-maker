@@ -20,5 +20,9 @@ jobs:
                   "py_files"
                 activate-environment: "true"
             - run: 
+                cd py_files
+            - run:
+                ls
+            - run: 
                 uv run pytest
                     
