@@ -1,4 +1,4 @@
-# Mermaid-Maker
+# TEST TEST Mermaid-Maker
 
 This action converts [mermaid](https://github.com/mermaid-js/mermaid) files into one of the output formats: png, svg, pdf, before committing them to your repository. 
 
