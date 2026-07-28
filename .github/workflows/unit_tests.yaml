@@ -1,0 +1,24 @@
+name: Unit Tests for Python Run Commands
+on: 
+    push:
+    pull_request:
+        branches: ['main']
+    workflow_dispatch:
+
+jobs:
+    job1:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: "actions/checkout@main"
+              with:
+                sparse-checkout: |
+                  py_files
+            - name: Install the latest version of uv
+              uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+              with:
+                working-directory:
+                  "py_files"
+                activate-environment: "true"
+            - run: 
+                uv run --frozen pytest
+                    
