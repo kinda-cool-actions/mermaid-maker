@@ -19,9 +19,6 @@ jobs:
                 working-directory:
                   "py_files"
                 activate-environment: "true"
-            - run: |
-                  cd py_files
-                  uv sync --locked
             - run: 
-                uv run --frozen pytest
+                uv run pytest
                     
