@@ -58,9 +58,7 @@ runs:
             else:
                 input_files_glob_pattern = f"{input_dir}/**/*.{input_file_extension}"
 
-            input_files = []
-            for file in glob(input_files_glob_pattern, recursive=True):
-                input_files.append(file)
+            input_files = glob(input_files_glob_pattern, recursive=True)
 
             with open(output_file, "a") as file:
                 print("input_files=" + json.dumps(input_files), file=file)
@@ -205,7 +203,7 @@ runs:
                     ["pnpm", "config", "set", "--location=project", "strictDepBuilds", "false"],
                     check=True,
                 )
-            elif pkg_manager == "yarn":
+            elif pkg_manager == "yarn":  # noqa: SIM114
                 print("Nothing to setup")
             elif pkg_manager == "bun":
                 print("Nothing to setup")
@@ -317,7 +315,7 @@ runs:
                     ["pnpm", "config", "set", "--location=project", "strictDepBuilds", "true"],
                     check=True,
                 )
-            elif pkg_manager == "yarn":
+            elif pkg_manager == "yarn":  # noqa: SIM114
                 print("Nothing to teardown")
             elif pkg_manager == "bun":
                 print("Nothing to teardown")
