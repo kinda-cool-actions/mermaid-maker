@@ -10,9 +10,7 @@ def get_input_files(input_dir, input_file_extension, output_file):
     else:
         input_files_glob_pattern = f"{input_dir}/**/*.{input_file_extension}"
 
-    input_files = []
-    for file in glob(input_files_glob_pattern, recursive=True):
-        input_files.append(file)
+    input_files = glob(input_files_glob_pattern, recursive=True)
 
     with open(output_file, "a") as file:
         print("input_files=" + json.dumps(input_files), file=file)

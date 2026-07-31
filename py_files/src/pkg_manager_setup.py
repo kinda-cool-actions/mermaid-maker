@@ -10,7 +10,7 @@ def pkg_manager_setup(pkg_manager):
             ["pnpm", "config", "set", "--location=project", "strictDepBuilds", "false"],
             check=True,
         )
-    elif pkg_manager == "yarn":
+    elif pkg_manager == "yarn":  # noqa: SIM114
         print("Nothing to setup")
     elif pkg_manager == "bun":
         print("Nothing to setup")
