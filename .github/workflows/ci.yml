@@ -46,6 +46,7 @@ jobs:
                 - cwd: py_files_to_action_bundler
         - name: run bundler
           run: |
+            cd py_files_to_action_bundler
             pnpm bundle_to_action
         - name: check for diff
           run: | 
