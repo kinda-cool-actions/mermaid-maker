@@ -7,16 +7,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    format-and-lint:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
-              with:
-                fetch-depth: 0
-                persist-credentials: false
-            - uses: super-linter/super-linter@v8.7.0 
-
-    unit-tests:
+    py-ci:
         runs-on: ubuntu-latest
         steps:
             - uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
@@ -27,7 +18,41 @@ jobs:
               uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
               with:
                 working-directory: "py_files"
-            - run: |
+            - name: format with black
+              run: |
+                cd py_files
+                uv run black .
+            - name: lint with ruff
+              run: |
+                cd py_files
+                uv run ruff check
+            - name: Run Unit tests
+              run: |
                 cd py_files
                 uv run --locked pytest
-                    
+    bundle-python-to-action:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout repo
+          uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
+        - name: setup pnpm
+          uses: "pnpm/action-setup@v6.0.9"
+          with:
+            cache: true
+            cache_dependency_path: |
+              py_files_to_action_bundler/pnpm-lock.yaml
+            version: 11
+            run_install: |
+                - cwd: py_files_to_action_bundler
+        - name: run bundler
+          run: |
+            pnpm bundle_to_action
+        - name: check for diff
+          run: | 
+            echo "DIFF=$(git diff action.yml)" >> $GITHUB_OUTPUT
+          id: check-bundle-diff
+        - name: check if files where bundled
+          if: ${{steps.check-bundle-diff.outputs.DIFF != ''}}
+          run: |
+            echo "::error::Python Files were not bundled to action.yml"
+            exit 1
