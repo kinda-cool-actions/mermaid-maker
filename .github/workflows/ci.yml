@@ -48,14 +48,6 @@ jobs:
           run: |
             cd py_files_to_action_bundler
             pnpm bundle_to_action
-        - name: check for diff
+        - name: check for diff and exit with error with a diff
           run: | 
-            # get exit code of action.yml and set to var
             git diff --exit-code action.yml 
-            echo "diff_exit_code=${?}" >> "$GITHUB_OUTPUT"
-          id: check-bundle-diff
-        - name: check if files where bundled
-          if: ${{steps.check-bundle-diff.outputs.diff_exit_code == 1}}
-          run: |
-            echo "::error::Python Files were not bundled to action.yml"
-            exit 1
