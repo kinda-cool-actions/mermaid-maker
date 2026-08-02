@@ -1,0 +1,12 @@
+set default-list := true
+
+# format then lint
+all: format lint
+
+# lint with ruff
+lint:
+  uv run ruff check .
+
+# format with black
+format:
+  uv run black .
