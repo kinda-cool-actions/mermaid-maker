@@ -235,24 +235,28 @@ runs:
         ### install mermaid
         PUPPETEER_SKIP_DOWNLOAD='true' ${{inputs.pkg_manager}} install @mermaid-js/mermaid-cli@11.16.0
       shell: bash
+    - name: get puppeteer version
+      id: puppeteer_version
+      run: echo "version=$(${{inputs.pkg_manager}} puppeteer --version | tail -n 1)" >> "$GITHUB_OUTPUT"
+      shell: bash
     - if: ${{steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
-      name: Cache mermaid browser
+      name: Restore mermaid browser (if it exists)
       uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
       with:
-        key: mermaid-maker-chrome-browser-11.16.0
+        key: mermaid-maker-chrome-browser-puppeteer@${{steps.puppeteer_version.outputs.version}}
         path: mermaid-maker-chrome-browser
-      id: chrome_browser_download
-    - if: ${{steps.chrome_browser_download.outputs.cache-hit != 'true' && steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
+      id: restore-browser
+    - if: ${{steps.restore-browser.outputs.cache-hit != 'true' && steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
       name: install browser if doesnt exist
       run: |
         ### install browser if doesnt exist
         PUPPETEER_CACHE_DIR='./mermaid-maker-chrome-browser' ${{steps.set_pkg_manager_run.outputs.pkg_manager_run_cmd}} puppeteer browsers install
       shell: bash
-    - if: ${{steps.chrome_browser_download.outputs.cache-hit != 'true' && steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
+    - if: ${{steps.restore-browser.outputs.cache-hit != 'true' && steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
       name: cache mermaid browser
       uses: actions/cache/save@v6.1.0
       with:
-        key: mermaid-maker-chrome-browser-11.16.0
+        key: ${{steps.restore-browser.outputs.cache-primary-key}}
         path: mermaid-maker-chrome-browser
     - if: ${{steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
       id: mermaid_gen
