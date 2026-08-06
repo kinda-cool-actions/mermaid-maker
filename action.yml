@@ -226,7 +226,7 @@ runs:
       name: install mermaid
       run: |
         ### install mermaid
-        PUPPETEER_SKIP_DOWNLOAD='true' ${{inputs.pkg_manager}} install @mermaid-js/mermaid-cli@11.16.0
+        PUPPETEER_SKIP_DOWNLOAD='true' ${{inputs.pkg_manager}} add @mermaid-js/mermaid-cli@11.16.0
       shell: bash
     - name: get puppeteer version
       id: puppeteer_version
