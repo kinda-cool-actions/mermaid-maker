@@ -7,38 +7,32 @@ inputs:
       i.e. all changed files with input_file_extension across the whole repo.
     required: false
     default: all
-    type: string
   input_file_extension:
     description: The extension of the mermaid files.
     required: false
     default: mmd
-    type: string
   output_dir:
     description: |
       The output directory for generated mermaid files. Defaults to "same",
       i.e. converted files will be placed in the same directory as their source files.
     required: false
     default: same
-    type: string
   output_file_extension:
     description: |
       The output format of the generated mermaid files. Only "svg", "png"and "pdf" are accepted. 
     required: false
     default: svg
-    type: string
   commit:
     description: |
       Whether generated mermaid files should be committed to the repo.
     required: false
-    default: false
-    type: boolean
+    default: 'false'
   commit_message:
     description: |
       The commit message used for commiting mermaid files into the repository. 
       Defaults to: "feat: Convert `input_file_extension` file(s) to `output_file_extension`".
     required: false
     default: ''
-    type: string
   pkg_manager:
     description: |
       The node package manager to use. Make sure it's setup before using this action.
@@ -49,7 +43,6 @@ inputs:
         - "bun"   
     required: false
     default: npm
-    type: string
 branding:
   icon: arrow-down-circle
   color: purple
@@ -309,7 +302,7 @@ runs:
         ### Set commit message
         echo "SET_COMMIT_MSG='feat: Convert .${{inputs.input_file_extension}} file(s) to ${{inputs.output_file_extension}}'" >> "$GITHUB_OUTPUT"
       shell: bash
-    - if: ${{inputs.commit == true && steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
+    - if: ${{inputs.commit == 'true' && steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
       uses: EndBug/add-and-commit@290ea2c423ad77ca9c62ae0f5b224379612c0321
       with:
         message: ${{steps.COMMIT_MSG.outputs.SET_COMMIT_MSG}}
