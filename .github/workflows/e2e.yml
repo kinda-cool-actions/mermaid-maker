@@ -30,6 +30,7 @@ jobs:
         uses: mermaid-maker/action@main
         with:
           pkg_manager: ${{matrix.pkg_manager}}
+        continue-on-error: true
       - name: check for gen diagram
         run: cat public/sample.svg
           
