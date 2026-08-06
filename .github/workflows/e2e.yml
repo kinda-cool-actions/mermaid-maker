@@ -1,0 +1,35 @@
+name: End-to-end Test
+on: 
+  push:
+    branches: ['main']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  package_manager_test:
+    name: test different package managers
+    strategy:
+      matrix:
+        pkg_manager: ['npm', 'pnpm', 'yarn', 'bun']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          repository: mermaid-maker/e2e
+      - uses: ./.github/actions/setup_pkg_manager
+        with:
+          pkg_manager: ${{matrix.pkg_manager}}
+      - name: setup basic mermaid file
+        run: mkdir public
+      - name: add sample mmd file
+        uses: ./.github/actions/add_mmd_file
+        with:
+          basename: sample
+          output_dir: public
+      - name: generate mermaid file
+        uses: mermaid-maker/action@main
+        with:
+          pkg_manager: ${{matrix.pkg_manager}}
+      - name: check for gen diagram
+        run: cat public/sample.svg
+          
