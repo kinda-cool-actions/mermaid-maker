@@ -36,7 +36,7 @@ jobs:
         - name: checkout repo
           uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
         - name: setup pnpm
-          uses: "pnpm/action-setup@v6.0.9"
+          uses: "pnpm/action-setup@v6.0.10"
           with:
             cache: true
             cache_dependency_path: |
