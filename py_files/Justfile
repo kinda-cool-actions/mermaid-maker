@@ -1,12 +1,16 @@
-set default-list := true
+set default-list
 
 # format then lint
 all: format lint
 
 # lint with ruff
 lint:
-  uv run ruff check .
+    uv run ruff check .
 
 # format with black
 format:
-  uv run black .
+    uv run black .
+
+# bundle in an interactive way
+ibundle:
+    python bundler.py
