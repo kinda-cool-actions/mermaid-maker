@@ -36,13 +36,14 @@ jobs:
         - name: checkout repo
           uses: "actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1"
         - name: setup pnpm
-          uses: "pnpm/setup@v2.0.0"
+          uses: "pnpm/action-setup@v6.0.10"
           with:
             cache: true
+            cache_dependency_path: |
+              py_files_to_action_bundler/pnpm-lock.yaml
             version: 11
-            runtime: node@24
-            cache-dependency-path: py_files_to_action_bundler/pnpm-lock.yaml
-            package-json-file: py_files_to_action_bundler/package.json
+            run_install: |
+                - cwd: py_files_to_action_bundler
         - name: run bundler
           run: |
             cd py_files_to_action_bundler
