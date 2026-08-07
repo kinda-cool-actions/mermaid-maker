@@ -33,4 +33,129 @@ jobs:
           pkg_manager: ${{matrix.pkg_manager}}
       - name: check for gen diagram
         run: cat public/sample.svg
-          
+  all_input_same_output_dir_test:
+    name: Test, with input_dir = 'all', and output_dir = 'same'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v7.0.1"
+        with:
+          repository: mermaid-maker/e2e
+      - uses: "./.github/actions/setup_pkg_manager"
+        with:
+          pkg_manager: bun
+      - run: |
+          mkdir dir1
+          mkdir dir2
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: '.'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: 'dir1'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: 'dir2'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: extra
+          output_dir: 'dir1'
+      - uses: "mermaid-maker/action@main"
+        with:
+          pkg_manager: 'bun'
+          input_dir: 'all'
+          output_dir: 'same'
+      - name: check for generated mermaid files
+        run: |
+          cat sample.svg
+          cat dir1/sample.svg
+          cat dir2/sample.svg
+          cat dir1/extra.svg
+  all_input_specific_output_dir_test:
+    name: Test, with input_dir = 'all', and output_dir = 'output'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v7.0.1"
+        with:
+          repository: mermaid-maker/e2e
+      - uses: "./.github/actions/setup_pkg_manager"
+        with:
+          pkg_manager: npm
+      - run: |
+          mkdir dir1
+          mkdir dir2
+          mkdir output
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample0
+          output_dir: '.'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample1
+          output_dir: 'dir1'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample2
+          output_dir: 'dir2'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample3
+          output_dir: 'dir1'
+      - uses: "mermaid-maker/action@main"
+        with:
+          pkg_manager: 'npm'
+          input_dir: 'all'
+          output_dir: output
+      - name: check for generated mermaid files
+        run: |
+          cat output/sample0.svg
+          cat output/sample1.svg
+          cat output/sample2.svg
+          cat output/sample3.svg
+  specific_input_same_output_dir_test:
+    name: Test, with input_dir = 'input', and output_dir = 'same'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v7.0.1"
+        with:
+          repository: mermaid-maker/e2e
+      - uses: "./.github/actions/setup_pkg_manager"
+        with:
+          pkg_manager: pnpm
+      - run: |
+          mkdir input
+          mkdir dir2
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample0
+          output_dir: '.'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample1
+          output_dir: 'input'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample2
+          output_dir: 'input'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample3
+          output_dir: 'dir2'
+      - uses: "mermaid-maker/action@main"
+        with:
+          pkg_manager: 'pnpm'
+          input_dir: 'input'
+          output_dir: 'same'
+      - name: check for generated mermaid files
+        run: |
+          cat input/sample1.svg
+          cat input/sample2.svg
+      - name: check for missing mermaid files
+        run: |
+          cat input/sample0.svg
+        continue-on-error: true
+        id: failed-step
+      - if: ${{steps.failed-step.outcome != 'failure'}}
+        run: exit 1
