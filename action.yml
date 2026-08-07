@@ -19,7 +19,7 @@ inputs:
     default: same
   output_file_extension:
     description: |
-      The output format of the generated mermaid files. Only "svg", "png"and "pdf" are accepted. 
+      The output format of the generated mermaid files. Only "svg", "png" and "pdf" are accepted. 
     required: false
     default: svg
   commit:
