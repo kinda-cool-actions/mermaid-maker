@@ -22,17 +22,6 @@ inputs:
       The output format of the generated mermaid files. Only "svg", "png" and "pdf" are accepted. 
     required: false
     default: svg
-  commit:
-    description: |
-      Whether generated mermaid files should be committed to the repo.
-    required: false
-    default: 'false'
-  commit_message:
-    description: |
-      The commit message used for commiting mermaid files into the repository. 
-      Defaults to: "feat: Convert `input_file_extension` file(s) to `output_file_extension`".
-    required: false
-    default: ''
   pkg_manager:
     description: |
       The node package manager to use. Make sure it's setup before using this action.
@@ -43,6 +32,13 @@ inputs:
       Yarn is not supported due to non-native support for the auto-installation of peer-depenecies like puppeteer. 
     required: false
     default: npm
+outputs:
+  input_files:
+    description: The input files that were used to regenerate mermaid diagrams
+    value: ${{steps.get_files_to_regen.outputs.input_files_to_regen}}
+  output_files:
+    description: The output files that were regenerated
+    value: ${{steps.get_files_to_regen.outputs.output_files_to_regen}}
 branding:
   icon: arrow-down-circle
   color: purple
@@ -291,18 +287,6 @@ runs:
                 environ["RUN_CMD"],
             )
       shell: python
-    - if: ${{inputs.commit_message == '' && steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
-      name: Set commit message
-      id: COMMIT_MSG
-      run: |
-        ### Set commit message
-        echo "SET_COMMIT_MSG='feat: Convert .${{inputs.input_file_extension}} file(s) to ${{inputs.output_file_extension}}'" >> "$GITHUB_OUTPUT"
-      shell: bash
-    - if: ${{inputs.commit == 'true' && steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
-      uses: EndBug/add-and-commit@290ea2c423ad77ca9c62ae0f5b224379612c0321
-      with:
-        message: ${{steps.COMMIT_MSG.outputs.SET_COMMIT_MSG}}
-        add: ${{steps.get_files_to_regen.outputs.output_files_to_regen}}
     - if: ${{steps.get_files_to_regen.outputs.input_files_to_regen != '[]'}}
       name: Package manager teardown
       env:
