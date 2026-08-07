@@ -82,7 +82,7 @@ jobs:
           repository: mermaid-maker/e2e
       - uses: "./.github/actions/setup_pkg_manager"
         with:
-          pkg_manager: npm
+          pkg_manager: bun
       - run: |
           mkdir dir1
           mkdir dir2
@@ -105,7 +105,7 @@ jobs:
           output_dir: 'dir1'
       - uses: "mermaid-maker/action@main"
         with:
-          pkg_manager: 'npm'
+          pkg_manager: 'bun'
           input_dir: 'all'
           output_dir: output
       - name: check for generated mermaid files
@@ -123,7 +123,7 @@ jobs:
           repository: mermaid-maker/e2e
       - uses: "./.github/actions/setup_pkg_manager"
         with:
-          pkg_manager: pnpm
+          pkg_manager: bun
       - run: |
           mkdir input
           mkdir dir2
@@ -145,7 +145,7 @@ jobs:
           output_dir: 'dir2'
       - uses: "mermaid-maker/action@main"
         with:
-          pkg_manager: 'pnpm'
+          pkg_manager: 'bun'
           input_dir: 'input'
           output_dir: 'same'
       - name: check for generated mermaid files
