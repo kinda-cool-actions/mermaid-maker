@@ -10,8 +10,6 @@ def pkg_manager_teardown(pkg_manager):
             ["pnpm", "config", "set", "--location=project", "strictDepBuilds", "true"],
             check=True,
         )
-    elif pkg_manager == "yarn":  # noqa: SIM114
-        print("Nothing to teardown")
     elif pkg_manager == "bun":
         print("Nothing to teardown")
     else:

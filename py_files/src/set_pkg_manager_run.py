@@ -7,8 +7,6 @@ def set_pkg_manager_run(pkg_manager, output_file):
         pkg_manager_run_cmd = "npx"
     elif pkg_manager == "pnpm":
         pkg_manager_run_cmd = "pnpm"
-    elif pkg_manager == "yarn":
-        pkg_manager_run_cmd = "yarn run"
     elif pkg_manager == "bun":
         pkg_manager_run_cmd = "bunx"
     else:

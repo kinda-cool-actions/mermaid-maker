@@ -11,7 +11,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        pkg_manager: ['npm', 'pnpm', 'yarn', 'bun']
+        pkg_manager: ['npm', 'pnpm', 'bun']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1

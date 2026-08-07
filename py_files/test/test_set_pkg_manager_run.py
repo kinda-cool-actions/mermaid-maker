@@ -13,10 +13,6 @@ def test_set_pkg_manager_run(fs):
     set_pkg_manager_run("pnpm", "output1.txt")
     assert "pnpm" == output_getter("output1.txt")["pkg_manager_run_cmd"]
 
-    fs.create_file("output2.txt")
-    set_pkg_manager_run("yarn", "output2.txt")
-    assert "yarn dlx" == output_getter("output2.txt")["pkg_manager_run_cmd"]
-
     fs.create_file("output3.txt")
     set_pkg_manager_run("bun", "output3.txt")
     assert "bunx" == output_getter("output3.txt")["pkg_manager_run_cmd"]

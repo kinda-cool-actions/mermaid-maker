@@ -39,8 +39,8 @@ inputs:
       Currently, only the following pkg_managers are accepted:
         - "npm"   
         - "pnpm"  
-        - "yarn" 
         - "bun"   
+      Yarn is not supported due to non-native support for the auto-installation of peer-depenecies like puppeteer. 
     required: false
     default: npm
 branding:
@@ -178,8 +178,6 @@ runs:
                 pkg_manager_run_cmd = "npx"
             elif pkg_manager == "pnpm":
                 pkg_manager_run_cmd = "pnpm"
-            elif pkg_manager == "yarn":
-                pkg_manager_run_cmd = "yarn run"
             elif pkg_manager == "bun":
                 pkg_manager_run_cmd = "bunx"
             else:
@@ -208,8 +206,6 @@ runs:
                     ["pnpm", "config", "set", "--location=project", "strictDepBuilds", "false"],
                     check=True,
                 )
-            elif pkg_manager == "yarn":  # noqa: SIM114
-                print("Nothing to setup")
             elif pkg_manager == "bun":
                 print("Nothing to setup")
             else:
@@ -324,8 +320,6 @@ runs:
                     ["pnpm", "config", "set", "--location=project", "strictDepBuilds", "true"],
                     check=True,
                 )
-            elif pkg_manager == "yarn":  # noqa: SIM114
-                print("Nothing to teardown")
             elif pkg_manager == "bun":
                 print("Nothing to teardown")
             else:
