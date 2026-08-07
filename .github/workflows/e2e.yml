@@ -159,3 +159,109 @@ jobs:
         id: failed-step
       - if: ${{steps.failed-step.outcome != 'failure'}}
         run: exit 1
+  commit_test:
+    name: Test with commit=true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v7.0.1"
+        with:
+          repository: mermaid-maker/e2e
+      - uses: "./.github/actions/setup_pkg_manager"
+        with:
+          pkg_manager: bun
+      - run: |
+          mkdir dir1
+          mkdir dir2
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: '.'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: 'dir1'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: 'dir2'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: extra
+          output_dir: 'dir1'
+      - uses: "mermaid-maker/action@main"
+        with:
+          pkg_manager: 'bun'
+          input_dir: 'all'
+          output_dir: 'same'
+          commit: true
+      - name: check for generated mermaid files
+        run: |
+          cat sample.svg
+          cat dir1/sample.svg
+          cat dir2/sample.svg
+          cat dir1/extra.svg
+      - name: remove committed files
+        run: |
+          git config user.name "${{github.triggering_actor}}"
+          git config user.email "${{github.actor}}+${{github.actor_id}}@github_actions.com"
+          git rm sample.svg
+          git rm dir1/sample.svg
+          git rm dir2/sample.svg
+          git rm dir1/extra.svg
+          git commit -m "test: remove generated, comitted svg files"
+          git push
+  output_file_extension_commit_test:
+    name: Test different output file extensions while committing them to repo 
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        output_file_extension: ['svg', 'png', 'pdf']
+    steps:
+      - uses: "actions/checkout@v7.0.1"
+        with:
+          repository: mermaid-maker/e2e
+      - uses: "./.github/actions/setup_pkg_manager"
+        with:
+          pkg_manager: bun
+      - run: |
+          mkdir dir1
+          mkdir dir2
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: '.'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: 'dir1'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: sample
+          output_dir: 'dir2'
+      - uses: "./.github/actions/add_sample_mmd"
+        with:
+          basename: extra
+          output_dir: 'dir1'
+      - uses: "mermaid-maker/action@main"
+        with:
+          pkg_manager: 'bun'
+          input_dir: 'all'
+          output_dir: 'same'
+          commit: true
+          output_file_extension: ${{matrix.output_file_extension}}
+      - name: check for generated mermaid files
+        run: |
+          cat sample.${{matrix.output_file_extension}}
+          cat dir1/sample.${{matrix.output_file_extension}}
+          cat dir2/sample.${{matrix.output_file_extension}}
+          cat dir1/extra.${{matrix.output_file_extension}}
+      - name: remove committed files
+        run: |
+          git config user.name "${{github.triggering_actor}}"
+          git config user.email "${{github.actor}}+${{github.actor_id}}@github_actions.com"
+          git rm sample.${{matrix.output_file_extension}}
+          git rm dir1/sample.${{matrix.output_file_extension}}
+          git rm dir2/sample.${{matrix.output_file_extension}}
+          git rm dir1/extra.${{matrix.output_file_extension}}
+          git commit -m "test: remove generated, comitted svg files"
+          git push
