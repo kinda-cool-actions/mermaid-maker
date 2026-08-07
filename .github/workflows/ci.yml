@@ -40,6 +40,7 @@ jobs:
           with:
             cache: true
             version: 11
+            runtime: node@24
             cache-dependency-path: py_files_to_action_bundler/pnpm-lock.yaml
             package-json-file: py_files_to_action_bundler/package.json
         - name: run bundler
