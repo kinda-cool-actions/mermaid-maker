@@ -1,6 +1,6 @@
 # Mermaid-Maker
 
-This action converts [mermaid](https://github.com/mermaid-js/mermaid) files into one of the output formats: png, svg, pdf, before committing them to your repository. 
+This action converts [mermaid](https://github.com/mermaid-js/mermaid) files into one of the output formats: png, svg, pdf.
 
 ## What is Mermaid?
 
@@ -67,7 +67,7 @@ This is also good enough for use-cases where:
 
 ### This Solution
 
-Or... **you can use this solution**. This Github action checks for any added or modified mermaid source files, and it renders them to your chosen output. Then, it commits the generated diagrams to your repo automatically. 
+Or... **you can use this solution**. This Github action checks for any added or modified mermaid source files, and it renders them to your chosen output. 
 
 This solution is:
 

@@ -159,7 +159,7 @@ jobs:
         id: failed-step
       - if: ${{steps.failed-step.outcome != 'failure'}}
         run: exit 1
-  output_file_extension_commit_test:
+  output_file_extension_test:
     name: Test different output file extensions 
     runs-on: ubuntu-latest
     strategy:
