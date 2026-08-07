@@ -46,19 +46,19 @@ jobs:
       - run: |
           mkdir dir1
           mkdir dir2
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample
           output_dir: '.'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample
           output_dir: 'dir1'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample
           output_dir: 'dir2'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: extra
           output_dir: 'dir1'
@@ -87,19 +87,19 @@ jobs:
           mkdir dir1
           mkdir dir2
           mkdir output
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample0
           output_dir: '.'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample1
           output_dir: 'dir1'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample2
           output_dir: 'dir2'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample3
           output_dir: 'dir1'
@@ -127,19 +127,19 @@ jobs:
       - run: |
           mkdir input
           mkdir dir2
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample0
           output_dir: '.'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample1
           output_dir: 'input'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample2
           output_dir: 'input'
-      - uses: "./.github/actions/add_sample_mmd"
+      - uses: "./.github/actions/add_mmd_file"
         with:
           basename: sample3
           output_dir: 'dir2'
