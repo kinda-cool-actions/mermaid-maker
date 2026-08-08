@@ -220,6 +220,39 @@ jobs:
           pkg_manager: bun
       - run: |
           mkdir dir1
+      - uses: "./.github/actions/add_input_file"
+        with:
+          basename: sample
+          output_dir: 'dir1'
+          extension: ${{matrix.input_file_extension}}
+      - uses: "./.github/actions/add_input_file"
+        with:
+          basename: extra
+          output_dir: 'dir1'
+          extension: ${{matrix.input_file_extension}}
+      - uses: "mermaid-maker/action@main"
+        with:
+          pkg_manager: 'bun'
+          input_file_extension: ${{matrix.input_file_extension}}
+          input_dir: 'dir1'
+          output_dir: 'same'
+        id: mermaid-action
+      - name: check for generated mermaid files
+        run: |
+          cat dir1/sample.svg
+          cat dir1/extra.svg
+  output_test:
+    name: Test output variable has all files that should be regen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v7.0.1"
+        with:
+          repository: mermaid-maker/e2e
+      - uses: "./.github/actions/setup_pkg_manager"
+        with:
+          pkg_manager: bun
+      - run: |
+          mkdir dir1
           mkdir dir2
       - uses: "./.github/actions/add_input_file"
         with:
@@ -240,13 +273,13 @@ jobs:
       - uses: "mermaid-maker/action@main"
         with:
           pkg_manager: 'bun'
-          input_file_extension: ${{matrix.input_file_extension}}
           input_dir: 'all'
           output_dir: 'same'
-        id: mermaid-action
+        id: mermaid-gen
       - name: check for generated mermaid files
-        run: |
-          cat sample.svg
-          cat dir1/sample.svg
-          cat dir2/sample.svg
-          cat dir1/extra.svg
+        uses: './.github/actions/check_output'
+        with:
+          expected_input_files: "['sample.mmd', 'dir1/sample.mmd', 'dir1/extra.mmd', 'dir2/sample.mmd']"
+          expected_output_files: "['sample.svg', 'dir1/sample.svg', 'dir1/extra.svg', 'dir2/sample.svg']"
+          actual_input_files: ${{steps.mermaid-gen.outputs.input_files}}
+          actual_output_files: ${{steps.mermaid-gen.outputs.output_files}}
