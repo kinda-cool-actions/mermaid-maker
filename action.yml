@@ -8,7 +8,9 @@ inputs:
     required: false
     default: all
   input_file_extension:
-    description: The extension of the mermaid files.
+    description: |
+      The extension of the mermaid files. Note: md (markdown) input files are 
+      currently not supported, but they could be in the future.
     required: false
     default: mmd
   output_dir:

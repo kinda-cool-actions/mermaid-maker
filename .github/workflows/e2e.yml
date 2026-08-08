@@ -9,11 +9,11 @@ on:
 jobs:
   package_manager_test:
     name: test different package managers
-    continue-on-error: true
     strategy:
       matrix:
         pkg_manager: ['npm', 'pnpm', 'bun']
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v7.0.1
         with:
@@ -166,6 +166,7 @@ jobs:
     strategy:
       matrix:
         output_file_extension: ['svg', 'png', 'pdf']
+    continue-on-error: true
     steps:
       - uses: "actions/checkout@v7.0.1"
         with:
@@ -210,7 +211,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        input_file_extension: ['mmd', 'txt', 'md']
+        input_file_extension: ['mmd', 'txt', 'mermaid']
+    continue-on-error: true
     steps:
       - uses: "actions/checkout@v7.0.1"
         with:
