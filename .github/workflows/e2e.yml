@@ -4,7 +4,8 @@ on:
     branches: ['main']
   pull_request:
   workflow_dispatch:
-
+# test input_file_extension
+# test output
 jobs:
   package_manager_test:
     name: test different package managers
@@ -23,7 +24,7 @@ jobs:
       - name: setup basic mermaid file
         run: mkdir public
       - name: add sample mmd file
-        uses: ./.github/actions/add_mmd_file
+        uses: ./.github/actions/add_input_file
         with:
           basename: sample
           output_dir: public
@@ -46,19 +47,19 @@ jobs:
       - run: |
           mkdir dir1
           mkdir dir2
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample
           output_dir: '.'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample
           output_dir: 'dir1'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample
           output_dir: 'dir2'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: extra
           output_dir: 'dir1'
@@ -87,19 +88,19 @@ jobs:
           mkdir dir1
           mkdir dir2
           mkdir output
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample0
           output_dir: '.'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample1
           output_dir: 'dir1'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample2
           output_dir: 'dir2'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample3
           output_dir: 'dir1'
@@ -127,19 +128,19 @@ jobs:
       - run: |
           mkdir input
           mkdir dir2
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample0
           output_dir: '.'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample1
           output_dir: 'input'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample2
           output_dir: 'input'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample3
           output_dir: 'dir2'
@@ -175,19 +176,19 @@ jobs:
       - run: |
           mkdir dir1
           mkdir dir2
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample
           output_dir: '.'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample
           output_dir: 'dir1'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: sample
           output_dir: 'dir2'
-      - uses: "./.github/actions/add_mmd_file"
+      - uses: "./.github/actions/add_input_file"
         with:
           basename: extra
           output_dir: 'dir1'
@@ -204,3 +205,48 @@ jobs:
           cat dir1/sample.${{matrix.output_file_extension}}
           cat dir2/sample.${{matrix.output_file_extension}}
           cat dir1/extra.${{matrix.output_file_extension}}
+  input_file_extension_test:
+    name: Test different input file extensions 
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        input_file_extension: ['mmd', 'txt', 'md']
+    steps:
+      - uses: "actions/checkout@v7.0.1"
+        with:
+          repository: mermaid-maker/e2e
+      - uses: "./.github/actions/setup_pkg_manager"
+        with:
+          pkg_manager: bun
+      - run: |
+          mkdir dir1
+          mkdir dir2
+      - uses: "./.github/actions/add_input_file"
+        with:
+          basename: sample
+          output_dir: '.'
+      - uses: "./.github/actions/add_input_file"
+        with:
+          basename: sample
+          output_dir: 'dir1'
+      - uses: "./.github/actions/add_input_file"
+        with:
+          basename: sample
+          output_dir: 'dir2'
+      - uses: "./.github/actions/add_input_file"
+        with:
+          basename: extra
+          output_dir: 'dir1'
+      - uses: "mermaid-maker/action@main"
+        with:
+          pkg_manager: 'bun'
+          input_file_extension: ${{matrix.input_file_extension}}
+          input_dir: 'all'
+          output_dir: 'same'
+        id: mermaid-action
+      - name: check for generated mermaid files
+        run: |
+          cat sample.svg
+          cat dir1/sample.svg
+          cat dir2/sample.svg
+          cat dir1/extra.svg
