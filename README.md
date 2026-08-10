@@ -184,4 +184,4 @@ I'd say this is for hobby projects, and for folks with working knowledge of Gith
 
 ## Contributions!! 😀
 
-Check out [CONTRIBUTING.md] for details on how to contribute to this project!!
+Check out [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to contribute to this project!!
