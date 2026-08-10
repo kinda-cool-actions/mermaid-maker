@@ -1,0 +1,24 @@
+name: Add input file
+description: Add a basic input mermaid file to a selected directory
+
+inputs:
+  basename:
+    description: the basename of the added mmd file, without suffix
+    default: sample
+  extension:
+    description: the extension of the input file
+    default: mmd
+  output_dir: 
+    description: the output directory to add the mermaid file to
+    default: '.'
+
+runs:
+  using: composite
+  steps:
+    - name: add example input file
+      run: python add_input_file.py
+      shell: bash
+      env:
+        BASENAME: ${{inputs.basename}}
+        EXTENSION: ${{inputs.extension}}
+        OUTPUT_DIR: ${{inputs.output_dir}}

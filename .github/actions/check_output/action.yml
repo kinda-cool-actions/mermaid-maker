@@ -1,0 +1,26 @@
+name: Check output of mermaid action
+description: |
+  This checks that the outputted input and output files from the action
+  are indeed correct
+
+inputs:
+  expected_input_files:
+    required: true
+  expected_output_files:
+    required: true
+  actual_input_files:
+    required: true
+  actual_output_files:
+    required: true
+  
+runs:
+  using: composite
+  steps:
+    - name: check output
+      run: python check_output.py
+      shell: bash
+      env:
+        EXPECTED_INPUT_FILES: ${{inputs.expected_input_files}}
+        EXPECTED_OUPUT_FILES: ${{inputs.actual_output_files}}
+        ACTUAL_INPUT_FILES: ${{inputs.actual_input_files}}
+        ACTUAL_OUTPUT_FILES: ${{inputs.actual_output_files}}

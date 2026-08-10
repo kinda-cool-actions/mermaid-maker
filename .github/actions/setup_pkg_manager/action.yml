@@ -1,0 +1,24 @@
+name: Setup pkg_manager
+description: setup the pkg_manager using the appropriate github actions
+
+inputs:
+  pkg_manager:
+    required: true
+    description: "the package manager that needs to be setup"
+
+runs:
+  using: composite
+  steps:
+    - if: ${{inputs.pkg_manager == 'npm'}}
+      uses: actions/setup-node@v7.0.0
+      with:
+        node-version: 24
+    - if: ${{inputs.pkg_manager == 'pnpm'}}
+      uses: "pnpm/setup@main"
+      with:
+        version: 11
+        runtime: node@24
+    - if: ${{inputs.pkg_manager == 'bun'}}
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
