@@ -281,7 +281,7 @@ jobs:
       - name: check for generated mermaid files
         uses: './.github/actions/check_output'
         with:
-          expected_input_files: "['sample.mmd', 'dir1/sample.mmd', 'dir1/extra.mmd', 'dir2/sample.mmd']"
-          expected_output_files: "['sample.svg', 'dir1/sample.svg', 'dir1/extra.svg', 'dir2/sample.svg']"
+          expected_input_files: '["sample.mmd", "dir1/sample.mmd", "dir1/extra.mmd", "dir2/sample.mmd"]'
+          expected_output_files: '["sample.svg", "dir1/sample.svg", "dir1/extra.svg", "dir2/sample.svg"]'
           actual_input_files: ${{steps.mermaid-gen.outputs.input_files}}
           actual_output_files: ${{steps.mermaid-gen.outputs.output_files}}
