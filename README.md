@@ -18,24 +18,7 @@ This allows you to create web applications without worrying about how to render 
           output_file_extension: svg  # replace with your desired output file (svg/png/pdf)
 ```
 
-3. (Optional) If you don't want to regenerate mermaid diagrams on every deploy, you can cache them! Here's an example:
-
-```yml
-- uses: actions/cache@v6.1.0
-    with:
-
-      # add the paths to both your mermaid definition files and generated diagrams
-      # the path to mermaid definition files is needed for their (older) timestamps
-      path: |
-        public/*.svg
-        public/*.mmd
-
-      # Generate a new cache whenever packages or source files change.
-      # add mermaid definition files to the hash-key so they're regenerated when they change
-      key: ${{ runner.os }}-nextjs-${{ hashFiles('public/*.mmd')}}
-```
-
-4. In your web-application, render simple client-side mermaid diagrams for dev, and refer to the svg/png/pdf files in prod. Here's an example from a Next app:
+3. In your web-application, render simple client-side mermaid diagrams for dev, and refer to the svg/png/pdf files in prod. Here's an example from a Next app:
 
 ```js
     let MermaidDiagram = null;
@@ -176,7 +159,7 @@ Here are some of the challenges you might face using this action:
 
 2. Can't easily simulate how the diagrams will look in prod. This means that styling mermaid diagrams can create a discrepancy between what you see on dev vs. what ends up on production.
 
-3. Additional latency to deploy applications, and the need to use caching to speed that up (complex Github Actions operations).
+3. Additional latency to deploy applications. There is currently no caching strategy, so static mermaid assets are generated on every deploy.
 
 ## So, who's this for?
 
