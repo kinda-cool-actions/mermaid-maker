@@ -21,6 +21,6 @@ runs:
       shell: bash
       env:
         EXPECTED_INPUT_FILES: ${{inputs.expected_input_files}}
-        EXPECTED_OUPUT_FILES: ${{inputs.actual_output_files}}
+        EXPECTED_OUTPUT_FILES: ${{inputs.actual_output_files}}
         ACTUAL_INPUT_FILES: ${{inputs.actual_input_files}}
         ACTUAL_OUTPUT_FILES: ${{inputs.actual_output_files}}
