@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
         with:
-          repository: mermaid-maker/e2e
+          persist-credentials: false
       - uses: ./.github/actions/setup_pkg_manager
         with:
           pkg_manager: ${{matrix.pkg_manager}}
@@ -29,7 +29,7 @@ jobs:
           basename: sample
           output_dir: public
       - name: generate mermaid file
-        uses: mermaid-maker/action@main
+        uses: ./
         with:
           pkg_manager: ${{matrix.pkg_manager}}
       - name: check for gen diagram
@@ -38,9 +38,9 @@ jobs:
     name: Test, with input_dir = 'all', and output_dir = 'same'
     runs-on: ubuntu-latest
     steps:
-      - uses: "actions/checkout@v7.0.1"
+      - uses: actions/checkout@v7.0.1
         with:
-          repository: mermaid-maker/e2e
+          persist-credentials: false
       - uses: "./.github/actions/setup_pkg_manager"
         with:
           pkg_manager: bun
@@ -63,7 +63,7 @@ jobs:
         with:
           basename: extra
           output_dir: 'dir1'
-      - uses: "mermaid-maker/action@main"
+      - uses: "./"
         with:
           pkg_manager: 'bun'
           input_dir: 'all'
@@ -78,9 +78,9 @@ jobs:
     name: Test, with input_dir = 'all', and output_dir = 'output'
     runs-on: ubuntu-latest
     steps:
-      - uses: "actions/checkout@v7.0.1"
+      - uses: actions/checkout@v7.0.1
         with:
-          repository: mermaid-maker/e2e
+          persist-credentials: false
       - uses: "./.github/actions/setup_pkg_manager"
         with:
           pkg_manager: bun
@@ -104,7 +104,7 @@ jobs:
         with:
           basename: sample3
           output_dir: 'dir1'
-      - uses: "mermaid-maker/action@main"
+      - uses: "./"
         with:
           pkg_manager: 'bun'
           input_dir: 'all'
@@ -119,9 +119,9 @@ jobs:
     name: Test, with input_dir = 'input', and output_dir = 'same'
     runs-on: ubuntu-latest
     steps:
-      - uses: "actions/checkout@v7.0.1"
+      - uses: actions/checkout@v7.0.1
         with:
-          repository: mermaid-maker/e2e
+          persist-credentials: false
       - uses: "./.github/actions/setup_pkg_manager"
         with:
           pkg_manager: bun
@@ -144,7 +144,7 @@ jobs:
         with:
           basename: sample3
           output_dir: 'dir2'
-      - uses: "mermaid-maker/action@main"
+      - uses: "./"
         with:
           pkg_manager: 'bun'
           input_dir: 'input'
@@ -168,9 +168,9 @@ jobs:
         output_file_extension: ['svg', 'png', 'pdf']
     continue-on-error: true
     steps:
-      - uses: "actions/checkout@v7.0.1"
+      - uses: actions/checkout@v7.0.1
         with:
-          repository: mermaid-maker/e2e
+          persist-credentials: false
       - uses: "./.github/actions/setup_pkg_manager"
         with:
           pkg_manager: bun
@@ -193,7 +193,7 @@ jobs:
         with:
           basename: extra
           output_dir: 'dir1'
-      - uses: "mermaid-maker/action@main"
+      - uses: "./"
         with:
           pkg_manager: 'bun'
           input_dir: 'all'
@@ -214,9 +214,9 @@ jobs:
         input_file_extension: ['mmd', 'txt', 'mermaid']
     continue-on-error: true
     steps:
-      - uses: "actions/checkout@v7.0.1"
+      - uses: actions/checkout@v7.0.1
         with:
-          repository: mermaid-maker/e2e
+          persist-credentials: false
       - uses: "./.github/actions/setup_pkg_manager"
         with:
           pkg_manager: bun
@@ -232,7 +232,7 @@ jobs:
           basename: extra
           output_dir: 'dir1'
           extension: ${{matrix.input_file_extension}}
-      - uses: "mermaid-maker/action@main"
+      - uses: "./"
         with:
           pkg_manager: 'bun'
           input_file_extension: ${{matrix.input_file_extension}}
@@ -247,9 +247,9 @@ jobs:
     name: Test output variable has all files that should be regen
     runs-on: ubuntu-latest
     steps:
-      - uses: "actions/checkout@v7.0.1"
+      - uses: actions/checkout@v7.0.1
         with:
-          repository: mermaid-maker/e2e
+          persist-credentials: false
       - uses: "./.github/actions/setup_pkg_manager"
         with:
           pkg_manager: bun
@@ -272,7 +272,7 @@ jobs:
         with:
           basename: extra
           output_dir: 'dir1'
-      - uses: "mermaid-maker/action@main"
+      - uses: "./"
         with:
           pkg_manager: 'bun'
           input_dir: 'all'

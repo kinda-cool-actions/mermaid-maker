@@ -16,7 +16,7 @@ runs:
   using: composite
   steps:
     - name: add example input file
-      run: python add_input_file.py
+      run: python ./.github/actions/add_input_file/add_input_file.py
       shell: bash
       env:
         BASENAME: ${{inputs.basename}}

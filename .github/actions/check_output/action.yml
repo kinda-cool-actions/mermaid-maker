@@ -17,7 +17,7 @@ runs:
   using: composite
   steps:
     - name: check output
-      run: python check_output.py
+      run: python ./.github/actions/check_output/check_output.py
       shell: bash
       env:
         EXPECTED_INPUT_FILES: ${{inputs.expected_input_files}}
