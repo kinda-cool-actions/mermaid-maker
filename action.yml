@@ -36,10 +36,10 @@ inputs:
     default: npm
 outputs:
   input_files:
-    description: The input files that were used to regenerate mermaid diagrams
+    description: The input files that were used to generate mermaid diagrams
     value: ${{steps.get_files_to_regen.outputs.input_files_to_regen}}
   output_files:
-    description: The output files that were regenerated
+    description: The output files that were generated
     value: ${{steps.get_files_to_regen.outputs.output_files_to_regen}}
 branding:
   icon: arrow-down-circle
