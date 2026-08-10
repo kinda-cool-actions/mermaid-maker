@@ -1,3 +1,11 @@
 # try out add_input_file.py
 add_input_file:
-    env OUTPUT_DIR='.' EXTENSION='mmd' BASENAME='sample' python add_input_file.py
+    env OUTPUT_DIR='.' EXTENSION='mmd' BASENAME='sample' python add_input_file/add_input_file.py
+
+# try out setup_pkg_manager when its true
+check_output_true:
+    env EXPECTED_INPUT_FILES='["hi", "hello"]' EXPECTED_OUTPUT_FILES='["bye", "bye bye"]' ACTUAL_INPUT_FILES='["hi", "hello"]' ACTUAL_OUTPUT_FILES='["bye", "bye bye"]' python check_output/check_output.py
+
+# try out setup_pkg_manager when its false
+check_output_false:
+    env EXPECTED_INPUT_FILES='["hi", "hello"]' EXPECTED_OUTPUT_FILES='["bye", "bye bye"]' ACTUAL_INPUT_FILES='["hi", "hello"]' ACTUAL_OUTPUT_FILES='["byeeeeeeeeeeeee", "bye bye"]' python check_output/check_output.py
