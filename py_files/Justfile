@@ -14,3 +14,7 @@ format:
 # bundle in an interactive way
 ibundle:
     python bundler.py
+
+# run unit tests
+test:
+    uv run pytest
