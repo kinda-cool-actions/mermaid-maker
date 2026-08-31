@@ -1,8 +1,6 @@
 name: run on release
 on:
   release:
-    types:
-      - released
   
 permissions:
   contents: read
