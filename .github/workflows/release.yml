@@ -1,0 +1,26 @@
+name: run on release
+on:
+  release:
+    types:
+      - released
+  
+permissions:
+  contents: read
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: kinda-cool-actions/find-and-replace.js@v2.0.0
+        id: find-and-replace
+        env:
+          RELEASE_TAG: ${{github.event.release.tag_name}}
+      - run: |
+          git config user.name ${{github.triggering_actor}}
+          git config user.email ${{github.actor_id}}@github-action.com
+          git add .
+          git commit -m "docs: fix up version numbers"
+          git push
