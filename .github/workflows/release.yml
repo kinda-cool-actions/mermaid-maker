@@ -12,7 +12,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v7.0.1
-      - uses: kinda-cool-actions/find-and-replace.js@v2.0.0
+      - uses: kinda-cool-actions/find-and-replace.js@v2.1.0
         id: find-and-replace
         env:
           RELEASE_TAG: ${{github.event.release.tag_name}}
