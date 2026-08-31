@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/kinda-cool-actions/mermaid-maker/compare/v1.1.0...v1.1.1) (2026-08-31)
+
+
+### Bug Fixes
+
+* keeping release event generic ([e328b78](https://github.com/kinda-cool-actions/mermaid-maker/commit/e328b78d61d8ddda33246431dc73f5ceef3c4a00))
+
 ## [1.1.0](https://github.com/kinda-cool-actions/mermaid-maker/compare/v1.0.3...v1.1.0) (2026-08-31)
 
 
