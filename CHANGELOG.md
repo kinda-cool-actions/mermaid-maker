@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/kinda-cool-actions/mermaid-maker/compare/v1.1.2...v1.1.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* update find and replace action ([a59d451](https://github.com/kinda-cool-actions/mermaid-maker/commit/a59d451ef229bbe9b2a70c97d0341fbb92c92588))
+
 ## [1.1.1](https://github.com/kinda-cool-actions/mermaid-maker/compare/v1.1.0...v1.1.1) (2026-08-31)
 
 
