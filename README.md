@@ -12,7 +12,7 @@ This allows you to create web applications without worrying about how to render 
 
 ```yml
       - name: Generate mermaid diagrams
-        uses: "mermaid-maker/action@v1.0.2"
+        uses: "mermaid-maker/actionv1.1.5"
         with:
           pkg_manager: pnpm   # replace with your node pkg manager (npm/pnpm/bun)
           output_file_extension: svg  # replace with your desired output file (svg/png/pdf)
