@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with: 
           ref: main
-      - uses: kinda-cool-actions/find-and-replace.js@v2.3.0
+      - uses: kinda-cool-actions/find-and-replace.js@v2.5.4
         id: find-and-replace
         env:
           RELEASE_TAG: ${{github.event.release.tag_name}}
